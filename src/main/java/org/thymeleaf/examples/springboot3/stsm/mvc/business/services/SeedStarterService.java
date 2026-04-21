@@ -46,5 +46,8 @@ public class SeedStarterService {
     public void add(final SeedStarter seedStarter) {
         this.seedstarterRepository.add(seedStarter);
     }
-    
+
+    public void delete(int id) {
+        seedstarterRepository.delete(id);
+    }
 }

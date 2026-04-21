@@ -21,6 +21,7 @@ package org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.repositori
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Repository;
 import org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.SeedStarter;
@@ -30,6 +31,8 @@ import org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.SeedStarter
 public class SeedStarterRepository {
 
     private final List<SeedStarter> seedStarters = new ArrayList<SeedStarter>();
+
+    private AtomicInteger lastId = new AtomicInteger(0);
     
     
     
@@ -45,9 +48,12 @@ public class SeedStarterRepository {
 
     
     public void add(final SeedStarter seedStarter) {
+        seedStarter.setId(lastId.incrementAndGet());
         this.seedStarters.add(seedStarter);
     }
-    
-    
-    
+
+
+    public void delete(int id) {
+        seedStarters.removeIf(seedStarter -> seedStarter.getId() == id);
+    }
 }

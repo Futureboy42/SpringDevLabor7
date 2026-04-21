@@ -106,7 +106,19 @@ public class SeedStarterMngController {
         this.seedStarterService.add(seedStarter);
         return "redirect:/seedstartermng";
     }
-    
+
+
+
+
+    @RequestMapping(value="/seedstartermng", params={"delete"})
+    public String deleteSeedstarter(@RequestParam int id) {
+
+        this.seedStarterService.delete(id);
+        return "redirect:/seedstartermng";
+    }
+
+
+
 
     
     @RequestMapping(value="/seedstartermng", params={"addRow"})
