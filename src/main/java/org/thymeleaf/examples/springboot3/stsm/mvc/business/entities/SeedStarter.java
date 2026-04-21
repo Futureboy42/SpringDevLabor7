@@ -33,6 +33,16 @@ public class SeedStarter {
     private Feature[] features = null;
     
     private List<Row> rows = new ArrayList<Row>();
+
+    private String origin;
+
+    public String getOrigin() {
+        return this.origin;
+    }
+
+    public void setOrigin(final String origin) {
+        this.origin = origin;
+    }
     
     
     public SeedStarter() {

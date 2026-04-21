@@ -28,6 +28,7 @@
             <th th:text="#{seedstarter.type}">Type</th>
             <th th:text="#{seedstarter.features}">Features</th>
             <th th:text="#{seedstarter.rows}">Rows</th>
+            <th>Origin</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +51,9 @@
                 </tbody>
               </table>
             </td>
+
+            <td th:text="${sb.origin}">Unknown</td>
+
             <td>
               <form th:action="@{/seedstartermng(id=${sb.id})}" method="post">
                 <button type="submit" name="delete" th:text="Delete">Delete</button>
@@ -84,6 +88,14 @@
             </label>
             <input type="text" th:field="*{datePlanted}" th:errorclass="fieldError" />
           </div>
+
+
+          <div>
+            <label for="origin">Origin</label>
+            <input type="text" th:field="*{origin}" />
+          </div>
+
+
           <div>
             <label th:for="${#ids.next('covered')}" th:text="#{seedstarter.covered}">Covered</label>
             <input type="checkbox" th:field="*{covered}" />
