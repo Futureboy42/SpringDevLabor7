@@ -25,11 +25,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.Feature;
 import org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.Row;
 import org.thymeleaf.examples.springboot3.stsm.mvc.business.entities.Variety;
@@ -88,11 +86,23 @@ public class SeedStarterMngController {
         return this.seedStarterService.findAll();
     }
     
-    
-    
-    @RequestMapping({"/","/seedstartermng"})
+
+    /*@RequestMapping({"/","/seedstartermng"})
     public String showSeedstarters(final SeedStarter seedStarter) {
         seedStarter.setDatePlanted(Calendar.getInstance().getTime());
+        return "seedstartermng";
+    }*/
+
+    @RequestMapping({"/","/seedstartermng"})
+    public String showSeedstarters(final SeedStarter seedStarter,
+                                   @RequestParam(value = "editRow", required = false) Integer editRow,
+                                   Model model) {
+        seedStarter.setDatePlanted(Calendar.getInstance().getTime());
+
+        if (editRow != null) {
+            model.addAttribute("editRowId", editRow);
+        }
+
         return "seedstartermng";
     }
     
@@ -107,27 +117,19 @@ public class SeedStarterMngController {
         return "redirect:/seedstartermng";
     }
 
-
-
-
     @RequestMapping(value="/seedstartermng", params={"delete"})
     public String deleteSeedstarter(@RequestParam int id) {
 
         this.seedStarterService.delete(id);
         return "redirect:/seedstartermng";
     }
-
-
-
-
     
     @RequestMapping(value="/seedstartermng", params={"addRow"})
     public String addRow(final SeedStarter seedStarter, final BindingResult bindingResult) {
         seedStarter.getRows().add(new Row());
         return "seedstartermng";
     }
-    
-    
+
     @RequestMapping(value="/seedstartermng", params={"removeRow"})
     public String removeRow(
             final SeedStarter seedStarter,
@@ -135,6 +137,25 @@ public class SeedStarterMngController {
             @RequestParam(value = "removeRow", required = false) Integer rowId) {
         seedStarter.getRows().remove(rowId.intValue());
         return "seedstartermng";
+    }
+
+    /*@RequestMapping(value = "/seedstartermng/edit", params = "id")
+    public String editSeedstarter(@RequestParam int id, final org.springframework.ui.Model model) {
+        SeedStarter existingSeedStarter = this.seedStarterService.findById(id);
+        if (existingSeedStarter == null) {
+            return "redirect:/seedstartermng?error=notfound";
+        }
+        model.addAttribute("seedStarter", existingSeedStarter);
+        return "seedstarteredit";
+    }*/
+
+    @RequestMapping(value = "/seedstartermng/", params = {"saveEdit"})
+    public String saveEditedSeedstarter(final SeedStarter seedStarter, final BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "seedstartermng";
+        }
+        this.seedStarterService.update(seedStarter);
+        return "redirect:/seedstartermng";
     }
 
 

@@ -56,4 +56,23 @@ public class SeedStarterRepository {
     public void delete(int id) {
         seedStarters.removeIf(seedStarter -> seedStarter.getId() == id);
     }
+
+    public void update(final SeedStarter seedStarter) {
+        for (int i = 0; i < seedStarters.size(); i++) {
+            if (seedStarters.get(i).getId().equals(seedStarter.getId())) {
+                seedStarter.setRows(seedStarters.get(i).getRows());
+                seedStarters.set(i, seedStarter);
+                break;
+            }
+        }
+    }
+
+    public SeedStarter findById(int id) {
+        return this.seedStarters.stream()
+                .filter(s -> s.getId() != null && s.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+
 }

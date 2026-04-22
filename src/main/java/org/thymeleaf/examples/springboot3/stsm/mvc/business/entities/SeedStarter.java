@@ -112,4 +112,7 @@ public class SeedStarter {
                 + Arrays.toString(this.features) + ", rows=" + this.rows + "]";
     }
 
+    public void setRows(List<Row> rows) {
+        this.rows = rows;
+    }
 }

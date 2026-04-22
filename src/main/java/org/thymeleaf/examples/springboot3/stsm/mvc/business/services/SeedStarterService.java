@@ -50,4 +50,12 @@ public class SeedStarterService {
     public void delete(int id) {
         seedstarterRepository.delete(id);
     }
+
+    public void update(final SeedStarter seedStarter) {
+        this.seedstarterRepository.update(seedStarter);
+    }
+
+    public SeedStarter findById(int id) {
+        return this.seedstarterRepository.findById(id);
+    }
 }
